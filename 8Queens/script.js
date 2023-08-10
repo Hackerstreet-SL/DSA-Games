@@ -19,8 +19,12 @@ for (let i = 0; i < 400; i += 50) {
 }
 
 document.addEventListener("mousedown", function (event) {
-  let x = (event.clientX - (event.clientX % 50)) / 50;
-  let y = (event.clientY - (event.clientY % 50)) / 50;
+  
+  let canvasPosition = canvas.getBoundingClientRect();
+
+  let x = ((event.clientX-canvasPosition.left) - ((event.clientX-canvasPosition.left) % 50)) / 50;
+  let y = ((event.clientY-canvasPosition.top) - ((event.clientY-canvasPosition.top) % 50)) / 50;
+  
   if (
     N_isSafe(y, x) &&
     NE_isSafe(y, x) &&
