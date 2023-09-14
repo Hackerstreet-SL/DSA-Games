@@ -1,24 +1,8 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 
-// const XsAndOs = new Array(3).fill(null).map(() => new Array(3).fill(null));
-// console.log(XsAndOs)
 const XsAndOs = new Array(3).fill(null).map(() => new Array(3).fill(null));
 console.log(XsAndOs)
-
-const icon_x = new Image();
-icon_x.src = './Images/icon-x.png';
-
-icon_x.onload = function() {
-  ctx.drawImage(icon_x, 15, 12, 100, 110, 25, 25, 150, 150, 0, 0);  
-}
-
-const icon_o = new Image();
-icon_o.src = './Images/icon-o.png';
-
-icon_o.onload = function() {
-  ctx.drawImage(icon_o, 5, 1, 160, 170, 225, 225, 150, 150, 0, 0);  
-}
 
 // borders of the game
 
@@ -50,6 +34,35 @@ ctx.moveTo(200, 0);
 ctx.lineTo(200, 300);
 ctx.stroke(); 
 
+/**
+ * @param {string} imageType should be X or O 
+ * @param {number} x horizontal position
+ * @param {number} y vertical position
+ */
+function insertImage (imageType, x, y) {
+
+  const icon = new Image();
+
+  if (imageType == 'X') {
+    icon.src = './Images/icon-x.png';
+    icon.onload = function() {
+      ctx.drawImage(icon, 15, 12, 100, 110, x*100+25, y*100+25, 150, 150, 0, 0);  
+    }
+
+  } else if (imageType == 'O') {
+    icon.src = './Images/icon-o.png';
+    icon.onload = function() {
+      ctx.drawImage(icon, 5, 1, 160, 170, x*100+25, y*100+25, 150, 150, 0, 0);  
+    }
+  }
+
+  XsAndOs[y][x] = icon;
+  XsAndOs.map((e)=>{
+    console.log(e)
+  })
+}
+
+
 
 document.addEventListener("mousedown", function (event) {
   let canvasPosition = canvas.getBoundingClientRect();
@@ -57,21 +70,9 @@ document.addEventListener("mousedown", function (event) {
   let x = ((event.clientX-canvasPosition.left) - ((event.clientX-canvasPosition.left) % 100)) / 100;
   let y = ((event.clientY-canvasPosition.top) - ((event.clientY-canvasPosition.top) % 100)) / 100;
   
-  const icon_x = new Image();
-  icon_x.src = './Images/icon-x.png';
-  
-  icon_x.onload = function() {
-    ctx.drawImage(icon_x, 15, 12, 100, 110, x*100+25, y*100+25, 150, 150, 0, 0);  
-  }
-
-  // XsAndOs[y][x] = icon_x;
-  // XsAndOs.map((e)=>{
-  //   console.log(e)
-  // })
+  insertImage("X", x, y)
   
 })
-
-
 
 // document.addEventListener("keyup", function (event) {
   
