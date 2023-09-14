@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 
+admin_mode = false;
 const XsAndOs = new Array(3).fill(null).map(() => new Array(3).fill(null));
 console.log(XsAndOs)
 
@@ -48,15 +49,17 @@ function insertImage (imageType, x, y) {
     icon.onload = function() {
       ctx.drawImage(icon, 15, 12, 100, 110, x*100+25, y*100+25, 150, 150, 0, 0);  
     }
+    XsAndOs[y][x] = 'X';
 
   } else if (imageType == 'O') {
     icon.src = './Images/icon-o.png';
     icon.onload = function() {
       ctx.drawImage(icon, 5, 1, 160, 170, x*100+25, y*100+25, 150, 150, 0, 0);  
     }
+    XsAndOs[y][x] = 'O';
   }
 
-  XsAndOs[y][x] = icon;
+  // XsAndOs[y][x] = icon;
   XsAndOs.map((e)=>{
     console.log(e)
   })
@@ -70,21 +73,25 @@ document.addEventListener("mousedown", function (event) {
   let x = ((event.clientX-canvasPosition.left) - ((event.clientX-canvasPosition.left) % 100)) / 100;
   let y = ((event.clientY-canvasPosition.top) - ((event.clientY-canvasPosition.top) % 100)) / 100;
   
-  insertImage("X", x, y)
-  
+  if (XsAndOs[y][x]==null) {
+    if (admin_mode) {
+      insertImage("O", x, y)
+    
+    } else {
+      insertImage("X", x, y)
+    }
+  }
+
 })
 
-// document.addEventListener("keyup", function (event) {
-  
-//   if(event.code==="ControlRight" || event.code==="ControlLeft")
-//   {
-//     const icon_o = new Image();
-//     icon_o.src = './Images/icon-o.png';
-    
-//     icon_o.onload = function() {
-//       ctx.drawImage(icon_o, 5, 1, 160, 170, x*100+25, y*100+25, 150, 150, 0, 0); 
-//     }
+document.addEventListener("keydown", function (event) {
+  if(event.key == 'Control') {
+    admin_mode = true
+  }
+})
 
-//   }
-  
-// })
+document.addEventListener("keyup", function (event) {
+  if(event.key == 'Control') {
+    admin_mode = false
+  }
+})
