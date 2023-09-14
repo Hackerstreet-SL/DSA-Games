@@ -66,6 +66,83 @@ function insertImage (imageType, x, y) {
 }
 
 
+function logic () {
+  Verticle_Zero   ("X")
+  Verticle_One    ("X")
+  Verticle_Two    ("X")
+  Horizontal_Zero ("X")
+  Horizontal_One  ("X")
+  Horizontal_Two  ("X")
+  Left_Angle      ("X")
+  Right_Angle     ("X")
+}
+
+function Verticle_Zero (key) {
+  count = 0;
+  for (let i=0; i<3; i++) {
+    if (XsAndOs[i][0]===key) count ++;
+  }
+  if (count==2) console.log(key + ' Can Won from Verticle_Zero')
+}
+
+function Verticle_One (key) {
+  count = 0;
+  for (let i=0; i<3; i++) {
+    if (XsAndOs[i][1]===key) count ++;
+  }
+  if (count==2) console.log(key + ' Can Won from Verticle_One')
+}
+
+function Verticle_Two (key) {
+  count = 0;
+  for (let i=0; i<3; i++) {
+    if (XsAndOs[i][2]===key) count ++;
+  }
+  if (count==2) console.log(key + ' Can Won from Verticle_Two')
+}
+
+function Horizontal_Zero (key) {
+  count = 0;
+  for (let i=0; i<3; i++) {
+    if (XsAndOs[0][i]===key) count ++;
+  }
+  if (count==2) console.log(key + ' Can Won from Horizontal_Zero')
+}
+
+function Horizontal_One (key) {
+  count = 0;
+  for (let i=0; i<3; i++) {
+    if (XsAndOs[1][i]===key) count ++;
+  }
+  if (count==2) console.log(key + ' Can Won from Horizontal_One')
+}
+
+function Horizontal_Two (key) {
+  count = 0;
+  for (let i=0; i<3; i++) {
+    if (XsAndOs[2][i]===key) count ++;
+  }
+  if (count==2) console.log(key + ' Can Won from Horizontal_Two')
+}
+
+function Left_Angle (key) {
+  count = 0;
+  for (let i=0; i<3; i++) {
+    if (XsAndOs[i][i]===key) count ++;
+  }
+  if (count==2) console.log(key + ' Can Won from Left_Angle')
+}
+
+function Right_Angle (key) {
+  count = 0;
+  for (let i=0; i<3; i++) {
+    if (XsAndOs[2-i][i]===key) count ++;
+  }
+  if (count==2) console.log(key + ' Can Won from Right_Angle')
+}
+
+
+
 
 document.addEventListener("mousedown", function (event) {
   let canvasPosition = canvas.getBoundingClientRect();
@@ -93,5 +170,11 @@ document.addEventListener("keydown", function (event) {
 document.addEventListener("keyup", function (event) {
   if(event.key == 'Control') {
     admin_mode = false
+  }
+})
+
+document.addEventListener("keyup", function (event) {
+  if(event.key == 'Alt') {
+    logic();
   }
 })
