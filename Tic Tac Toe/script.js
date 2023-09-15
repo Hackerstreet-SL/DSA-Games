@@ -69,6 +69,31 @@ function insertImage (imageType, x, y) {
 function logic () {
   let win_position = []
 
+  win_position = Verticle_Zero("O")
+  if( win_position != null )
+    return win_position;
+  win_position = Verticle_One("O")
+  if ( win_position != null )
+    return win_position;
+  win_position = Verticle_Two("O")
+  if ( win_position != null )
+    return win_position;
+  win_position = Horizontal_Zero("O")
+  if ( win_position != null )
+    return win_position
+  win_position = Horizontal_One("O")
+  if ( win_position != null )
+    return win_position
+  win_position = Horizontal_Two("O")
+  if ( win_position != null )
+    return win_position
+  win_position = Left_Angle("O")
+  if ( win_position != null )
+    return win_position
+  win_position = Right_Angle("O")
+  if ( win_position != null )
+    return win_position
+
   win_position = Verticle_Zero("X")
   if( win_position != null )
     return win_position;
@@ -217,10 +242,10 @@ document.addEventListener("mousedown", function (event) {
     } else {
       insertImage("X", x, y)
     }
+    win_position = logic();
+    console.log(win_position)
+    if (win_position!=null) insertImage("O", win_position[0], win_position[1])
   }
-  win_position = logic();
-  console.log(win_position)
-  if (win_position!=null) insertImage("O", win_position[0], win_position[1])
 })
 
 document.addEventListener("keydown", function (event) {
