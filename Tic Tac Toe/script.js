@@ -60,29 +60,55 @@ function insertImage (imageType, x, y) {
   }
 
   // XsAndOs[y][x] = icon;
-  XsAndOs.map((e)=>{
-    console.log(e)
-  })
+  // XsAndOs.map((e)=>{
+  //   console.log(e)
+  // })
 }
 
 
 function logic () {
-  Verticle_Zero   ("X")
-  Verticle_One    ("X")
-  Verticle_Two    ("X")
-  Horizontal_Zero ("X")
-  Horizontal_One  ("X")
-  Horizontal_Two  ("X")
-  Left_Angle      ("X")
-  Right_Angle     ("X")
+  let win_position = []
+
+  win_position = Verticle_Zero("X")
+  if( win_position != null )
+    return win_position;
+  win_position = Verticle_One("X")
+  if ( win_position != null )
+    return win_position;
+  win_position = Verticle_Two("X")
+  if ( win_position != null )
+    return win_position;
+  win_position = Horizontal_Zero ("X")
+  if ( win_position != null )
+    return win_position
+  win_position = Horizontal_One  ("X")
+  if ( win_position != null )
+    return win_position
+  win_position = Horizontal_Two  ("X")
+  if ( win_position != null )
+    return win_position
+  win_position = Left_Angle      ("X")
+  if ( win_position != null )
+    return win_position
+  win_position = Right_Angle     ("X")
+  if ( win_position != null )
+    return win_position
 }
+
+// return array cell
+
 
 function Verticle_Zero (key) {
   count = 0;
   for (let i=0; i<3; i++) {
     if (XsAndOs[i][0]===key) count ++;
   }
-  if (count==2) console.log(key + ' Can Won from Verticle_Zero')
+  if (count==2) {
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[i][0]==null) return [0,i]
+    }
+  }
+  return null
 }
 
 function Verticle_One (key) {
@@ -90,7 +116,12 @@ function Verticle_One (key) {
   for (let i=0; i<3; i++) {
     if (XsAndOs[i][1]===key) count ++;
   }
-  if (count==2) console.log(key + ' Can Won from Verticle_One')
+  if (count==2) {
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[i][1]==null) return [1,i]
+    }
+  }
+  return null
 }
 
 function Verticle_Two (key) {
@@ -98,7 +129,12 @@ function Verticle_Two (key) {
   for (let i=0; i<3; i++) {
     if (XsAndOs[i][2]===key) count ++;
   }
-  if (count==2) console.log(key + ' Can Won from Verticle_Two')
+  if (count==2) {
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[i][2]==null) return [2,i]
+    }
+  }
+  return null
 }
 
 function Horizontal_Zero (key) {
@@ -106,7 +142,12 @@ function Horizontal_Zero (key) {
   for (let i=0; i<3; i++) {
     if (XsAndOs[0][i]===key) count ++;
   }
-  if (count==2) console.log(key + ' Can Won from Horizontal_Zero')
+  if (count==2) {
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[0][i]==null) return [i,0]
+    }
+  }
+  return null
 }
 
 function Horizontal_One (key) {
@@ -114,7 +155,12 @@ function Horizontal_One (key) {
   for (let i=0; i<3; i++) {
     if (XsAndOs[1][i]===key) count ++;
   }
-  if (count==2) console.log(key + ' Can Won from Horizontal_One')
+  if (count==2) {
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[1][i]==null) return [i,1]
+    }
+  }
+  return null
 }
 
 function Horizontal_Two (key) {
@@ -122,7 +168,12 @@ function Horizontal_Two (key) {
   for (let i=0; i<3; i++) {
     if (XsAndOs[2][i]===key) count ++;
   }
-  if (count==2) console.log(key + ' Can Won from Horizontal_Two')
+  if (count==2) {
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[2][i]==null) return [i,2]
+    }
+  }
+  return null
 }
 
 function Left_Angle (key) {
@@ -130,7 +181,12 @@ function Left_Angle (key) {
   for (let i=0; i<3; i++) {
     if (XsAndOs[i][i]===key) count ++;
   }
-  if (count==2) console.log(key + ' Can Won from Left_Angle')
+  if (count==2) {
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[i][i]==null) return [i,i]
+    }
+  }
+  return null
 }
 
 function Right_Angle (key) {
@@ -138,7 +194,11 @@ function Right_Angle (key) {
   for (let i=0; i<3; i++) {
     if (XsAndOs[2-i][i]===key) count ++;
   }
-  if (count==2) console.log(key + ' Can Won from Right_Angle')
+  if (count==2) {
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[2-i][i]==null) return [i,2-i]
+    }
+  }
 }
 
 
@@ -158,7 +218,9 @@ document.addEventListener("mousedown", function (event) {
       insertImage("X", x, y)
     }
   }
-
+  win_position = logic();
+  console.log(win_position)
+  if (win_position!=null) insertImage("O", win_position[0], win_position[1])
 })
 
 document.addEventListener("keydown", function (event) {
