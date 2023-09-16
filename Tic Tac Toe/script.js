@@ -36,6 +36,43 @@ ctx.lineTo(200, 300);
 ctx.stroke(); 
 
 /**
+ * After player make his move
+ * This function will executes
+ */
+function computersTime () {
+  win_position = logic();
+  console.log(win_position)
+  if (win_position!=null || win_position != undefined) {
+    insertImage("O", win_position[0], win_position[1])
+
+  } else if (win_position == undefined ) {
+    unfilled_count = boardIsFull()
+    console.log(unfilled_count.length)
+    if ( unfilled_count.length!=9 && unfilled_count.length!=0 ) {
+      const random = Math.floor(Math.random() * unfilled_count.length)
+      let random_cell = unfilled_count[random][0]
+      insertImage("O", random_cell[1], random_cell[0])
+      console.log(random_cell)
+    }
+  }
+}
+
+function boardIsFull () {
+  let unfilled_count = []
+  for (let i = 0; i < XsAndOs.length; i++) {
+    const row = XsAndOs[i];
+    for (let j = 0; j < row.length; j++) {
+      const cell = row[j];
+      if (cell === null) {
+        unfilled_count.push([[i,j]])
+        console.log
+      }
+    }
+  }
+  return unfilled_count;
+}
+
+/**
  * @param {string} imageType should be X or O 
  * @param {number} x horizontal position
  * @param {number} y vertical position
@@ -132,6 +169,7 @@ function Verticle_Zero (key) {
     for (let i=0; i<3; i++) {
       if (XsAndOs[i][0]==null) return [0,i]
     }
+
   }
   return null
 }
@@ -145,6 +183,7 @@ function Verticle_One (key) {
     for (let i=0; i<3; i++) {
       if (XsAndOs[i][1]==null) return [1,i]
     }
+
   }
   return null
 }
@@ -158,6 +197,7 @@ function Verticle_Two (key) {
     for (let i=0; i<3; i++) {
       if (XsAndOs[i][2]==null) return [2,i]
     }
+
   }
   return null
 }
@@ -171,6 +211,7 @@ function Horizontal_Zero (key) {
     for (let i=0; i<3; i++) {
       if (XsAndOs[0][i]==null) return [i,0]
     }
+
   }
   return null
 }
@@ -184,6 +225,7 @@ function Horizontal_One (key) {
     for (let i=0; i<3; i++) {
       if (XsAndOs[1][i]==null) return [i,1]
     }
+
   }
   return null
 }
@@ -197,6 +239,7 @@ function Horizontal_Two (key) {
     for (let i=0; i<3; i++) {
       if (XsAndOs[2][i]==null) return [i,2]
     }
+
   }
   return null
 }
@@ -210,6 +253,7 @@ function Left_Angle (key) {
     for (let i=0; i<3; i++) {
       if (XsAndOs[i][i]==null) return [i,i]
     }
+
   }
   return null
 }
@@ -223,8 +267,10 @@ function Right_Angle (key) {
     for (let i=0; i<3; i++) {
       if (XsAndOs[2-i][i]==null) return [i,2-i]
     }
+
   }
 }
+
 
 
 
@@ -242,9 +288,7 @@ document.addEventListener("mousedown", function (event) {
     } else {
       insertImage("X", x, y)
     }
-    win_position = logic();
-    console.log(win_position)
-    if (win_position!=null) insertImage("O", win_position[0], win_position[1])
+    computersTime();
   }
 })
 
