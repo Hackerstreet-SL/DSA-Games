@@ -2,6 +2,7 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 
 admin_mode = false;
+let game_over = false;
 const XsAndOs = new Array(3).fill(null).map(() => new Array(3).fill(null));
 console.log(XsAndOs)
 
@@ -42,7 +43,7 @@ ctx.stroke();
 function computersTime () {
   win_position = logic();
   console.log(win_position)
-  if (win_position!=null || win_position != undefined) {
+  if ( win_position!=null || win_position != undefined ) {
     insertImage("O", win_position[0], win_position[1])
     logic();
 
@@ -54,6 +55,9 @@ function computersTime () {
       let random_cell = unfilled_count[random][0]
       insertImage("O", random_cell[1], random_cell[0])
       logic();
+    }
+    else if ( unfilled_count.length==9 ) {
+      game_over=true;
     }
   }
 }
@@ -106,8 +110,10 @@ function insertImage (imageType, x, y) {
 function drawLine (cells) {
   const from = cells[0]
   const to = cells[2]
+  game_over = true
+
   console.log('from', from, 'to', to)
-  console.log('drawline', cells)
+
   ctx.strokeStyle = "red";
   ctx.lineWidth = 5;
   ctx.beginPath();
@@ -343,7 +349,7 @@ document.addEventListener("mousedown", function (event) {
   let x = ((event.clientX-canvasPosition.left) - ((event.clientX-canvasPosition.left) % 100)) / 100;
   let y = ((event.clientY-canvasPosition.top) - ((event.clientY-canvasPosition.top) % 100)) / 100;
   
-  if (XsAndOs[y][x]==null) {
+  if (XsAndOs[y][x]==null && !game_over) {
     if (admin_mode) {
       insertImage("O", x, y)
     
