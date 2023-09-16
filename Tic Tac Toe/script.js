@@ -44,6 +44,7 @@ function computersTime () {
   console.log(win_position)
   if (win_position!=null || win_position != undefined) {
     insertImage("O", win_position[0], win_position[1])
+    logic();
 
   } else if (win_position == undefined ) {
     unfilled_count = boardIsFull()
@@ -52,7 +53,7 @@ function computersTime () {
       const random = Math.floor(Math.random() * unfilled_count.length)
       let random_cell = unfilled_count[random][0]
       insertImage("O", random_cell[1], random_cell[0])
-      console.log(random_cell)
+      logic();
     }
   }
 }
@@ -100,6 +101,19 @@ function insertImage (imageType, x, y) {
   // XsAndOs.map((e)=>{
   //   console.log(e)
   // })
+}
+
+function drawLine (cells) {
+  const from = cells[0]
+  const to = cells[2]
+  console.log('from', from, 'to', to)
+  console.log('drawline', cells)
+  ctx.strokeStyle = "red";
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.moveTo(from[0]*100+50, from[1]*100+50);
+  ctx.lineTo(to[0]*100+50, to[1]*100+50);
+  ctx.stroke(); 
 }
 
 
@@ -170,6 +184,12 @@ function Verticle_Zero (key) {
       if (XsAndOs[i][0]==null) return [0,i]
     }
 
+  } else if (count==3) {
+    const line_cells = []
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[i][0]!=null) line_cells.push([0,i])
+    }
+    drawLine(line_cells)
   }
   return null
 }
@@ -184,6 +204,12 @@ function Verticle_One (key) {
       if (XsAndOs[i][1]==null) return [1,i]
     }
 
+  } else if (count==3) {
+    const line_cells = []
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[i][1]!=null) line_cells.push([1,i])
+    }
+    drawLine(line_cells)
   }
   return null
 }
@@ -198,6 +224,12 @@ function Verticle_Two (key) {
       if (XsAndOs[i][2]==null) return [2,i]
     }
 
+  } else if (count==3) {
+    const line_cells = []
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[i][2]!=null) line_cells.push([2,i])
+    }
+    drawLine(line_cells)
   }
   return null
 }
@@ -212,6 +244,12 @@ function Horizontal_Zero (key) {
       if (XsAndOs[0][i]==null) return [i,0]
     }
 
+  } else if (count==3) {
+    const line_cells = []
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[0][i]!=null) line_cells.push([i,0])
+    }
+    drawLine(line_cells)
   }
   return null
 }
@@ -226,6 +264,12 @@ function Horizontal_One (key) {
       if (XsAndOs[1][i]==null) return [i,1]
     }
 
+  } else if (count==3) {
+    const line_cells = []
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[1][i]!=null) line_cells.push([i,1])
+    }
+    drawLine(line_cells)
   }
   return null
 }
@@ -240,6 +284,12 @@ function Horizontal_Two (key) {
       if (XsAndOs[2][i]==null) return [i,2]
     }
 
+  } else if (count==3) {
+    const line_cells = []
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[2][i]!=null) line_cells.push([i,2])
+    }
+    drawLine(line_cells)
   }
   return null
 }
@@ -254,6 +304,12 @@ function Left_Angle (key) {
       if (XsAndOs[i][i]==null) return [i,i]
     }
 
+  } else if (count==3) {
+    const line_cells = []
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[i][i]!=null) line_cells.push([i,i])
+    }
+    drawLine(line_cells)
   }
   return null
 }
@@ -268,6 +324,12 @@ function Right_Angle (key) {
       if (XsAndOs[2-i][i]==null) return [i,2-i]
     }
 
+  } else if (count==3) {
+    const line_cells = []
+    for (let i=0; i<3; i++) {
+      if (XsAndOs[2-i][i]!=null) line_cells.push([i,2-i])
+    }
+    drawLine(line_cells)
   }
 }
 
