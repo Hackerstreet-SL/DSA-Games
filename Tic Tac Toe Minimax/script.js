@@ -60,6 +60,41 @@ function minimax() {
   return 1;
 }
 
+function checkWinner () {
+
+  function equals (a, b, c) {
+    return (a==b && b==c && a!=null)
+  }
+
+  let winner = null;
+  
+  for (let i = 0; i < 3; i++) {
+    if (XsAndOs[i][0] == XsAndOs[i][1] == XsAndOs[i][2]) {
+      winner = XsAndOs[i][0];
+    }
+  }
+
+  for (let i = 0; i < 3; i++) {
+    if (XsAndOs[0][i] == XsAndOs[0][i] == XsAndOs[0][i]) {
+      winner = XsAndOs[0][i];
+    }
+  }
+
+  if (equals(XsAndOs[0][0], XsAndOs[1][1], XsAndOs[2][2])) {
+    winner = XsAndOs[0][0];
+  }
+
+  if (equals(XsAndOs[2][0], XsAndOs[1][1], XsAndOs[2][0])) {
+    winner = XsAndOs[2][0];
+  }
+
+  if (winner == null) {
+    return 'tie'
+  } else {
+    return winner
+  }
+  
+}
 
 function boardIsFull () {
   let unfilled_count = []
