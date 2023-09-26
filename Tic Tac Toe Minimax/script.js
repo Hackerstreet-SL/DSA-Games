@@ -3,79 +3,115 @@ const ctx = canvas.getContext("2d");
 
 admin_mode = false;
 const XsAndOs = new Array(3).fill(null).map(() => new Array(3).fill(null));
-console.log(XsAndOs)
+console.log(XsAndOs);
 
+let scores = {
+  X: 1,
+  O: -1,
+  tie: 0,
+};
 // borders of the game
 
-ctx.strokeStyle = "black";  // Set the line color
-ctx.lineWidth = 2;          // Set the line width
+ctx.strokeStyle = "black"; // Set the line color
+ctx.lineWidth = 2; // Set the line width
 ctx.beginPath();
-ctx.moveTo(0, 100);         // Starting point (x, y)
-ctx.lineTo(300, 100);       // Ending point (x, y)
-ctx.stroke();               // Stroke the line
+ctx.moveTo(0, 100); // Starting point (x, y)
+ctx.lineTo(300, 100); // Ending point (x, y)
+ctx.stroke(); // Stroke the line
 
 ctx.strokeStyle = "black";
 ctx.lineWidth = 2;
 ctx.beginPath();
 ctx.moveTo(0, 200);
 ctx.lineTo(300, 200);
-ctx.stroke(); 
+ctx.stroke();
 
 ctx.strokeStyle = "black";
 ctx.lineWidth = 2;
 ctx.beginPath();
 ctx.moveTo(100, 0);
 ctx.lineTo(100, 300);
-ctx.stroke(); 
+ctx.stroke();
 
-ctx.strokeStyle = "black"; 
+ctx.strokeStyle = "black";
 ctx.lineWidth = 2;
 ctx.beginPath();
 ctx.moveTo(200, 0);
 ctx.lineTo(200, 300);
-ctx.stroke(); 
+ctx.stroke();
 
 function bestMove() {
   let bestScore = -Infinity;
-  let bestMove;
+  let move;
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      if (XsAndOs[j][i]== null) {
+      if (XsAndOs[j][i] == null) {
         XsAndOs[j][i] = 'X'
-        let score = minimax();
+        let score = minimax(XsAndOs, 0, false);
+        console.log('minimax', score)
         XsAndOs[j][i] = null
         if (score > bestScore) {
+          console.log(score)
           bestScore = score;
-          bestMove = { x:i, y:j };
+          move = { x: i, y: j };
         }
-      } 
+      }
     }
   }
-  console.log(bestMove)
-  insertImage('X', bestMove.x, bestMove.y)
-  currentPlayer = 'O';
+  console.log(move);
+  insertImage("X", move.x, move.y);
+  currentPlayer = "O";
 }
 
-function minimax() {
-  return 1;
+function minimax(board, depth, isMaximizing) {
+  let result = checkWinner();
+  if (result != null) {
+    return scores[result];
+  }
+  if (isMaximizing) {
+    let bestScore = -Infinity;
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (board[j][i] == null) {
+          board[j][i] = "X";
+          let score = minimax(board, depth + 1, false);
+          board[j][i] = null;
+          bestScore = Math.max(score, bestScore);
+        }
+      }
+    }
+    return bestScore;
+  } else {
+    let bestScore = Infinity;
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (board[j][i] == null) {
+          board[j][i] = "O";
+          let score = minimax(board, depth + 1, true);
+          board[j][i] = null;
+          bestScore = Math.min(score, bestScore);
+        }
+      }
+    }
+    return bestScore;
+  }
 }
 
-function checkWinner () {
-
-  function equals (a, b, c) {
-    return (a==b && b==c && a!=null)
+function checkWinner() {
+  function equals(a, b, c) {
+    return a == b && b == c && a != null;
   }
 
   let winner = null;
-  
+
   for (let i = 0; i < 3; i++) {
-    if (XsAndOs[i][0] == XsAndOs[i][1] == XsAndOs[i][2]) {
+    if (equals(XsAndOs[i][0], XsAndOs[i][1], XsAndOs[i][2])) {
       winner = XsAndOs[i][0];
     }
   }
 
   for (let i = 0; i < 3; i++) {
-    if (XsAndOs[0][i] == XsAndOs[0][i] == XsAndOs[0][i]) {
+    if (equals(XsAndOs[0][i], XsAndOs[1][i], XsAndOs[2][i])) {
       winner = XsAndOs[0][i];
     }
   }
@@ -88,27 +124,27 @@ function checkWinner () {
     winner = XsAndOs[2][0];
   }
 
-  if (winner == null) {
-    return 'tie'
+  if (winner == null && boardIsFull()) {
+    // console.log("tie");
+    return 'tie';
   } else {
-    return winner
+    // console.log("winner is", winner);
+    return winner;
   }
-  
 }
 
-function boardIsFull () {
-  let unfilled_count = []
+function boardIsFull() {
+  let unfilled_count = [];
   for (let i = 0; i < XsAndOs.length; i++) {
     const row = XsAndOs[i];
     for (let j = 0; j < row.length; j++) {
       const cell = row[j];
       if (cell === null) {
-        unfilled_count.push([[i,j]])
-        console.log
+        unfilled_count.push([[i, j]]);
       }
     }
   }
-  return unfilled_count;
+  return unfilled_count.length === 0;
 }
 
 /**
@@ -150,7 +186,6 @@ function drawLine (cells) {
   ctx.stroke(); 
 }
 
-
 document.addEventListener("mousedown", function (event) {
   let canvasPosition = canvas.getBoundingClientRect();
 
@@ -183,6 +218,6 @@ document.addEventListener("keyup", function (event) {
 
 document.addEventListener("keyup", function (event) {
   if(event.key == 'Alt') {
-    logic();
+    // logic();
   }
 })
