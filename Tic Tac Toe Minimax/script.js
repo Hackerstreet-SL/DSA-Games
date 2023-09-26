@@ -192,15 +192,19 @@ document.addEventListener("mousedown", function (event) {
   let x = ((event.clientX-canvasPosition.left) - ((event.clientX-canvasPosition.left) % 100)) / 100;
   let y = ((event.clientY-canvasPosition.top) - ((event.clientY-canvasPosition.top) % 100)) / 100;
   
-  if (XsAndOs[y][x]==null) {
-    if (admin_mode) {
-      insertImage("X", x, y)
-    
-    } else {
-      insertImage("O", x, y)
+
+  let result = checkWinner();
+  if (result == null) {
+    if (XsAndOs[y][x]==null) {
+      if (admin_mode) {
+        insertImage("X", x, y)
+      
+      } else {
+        insertImage("O", x, y)
+      }
+      bestMove();
+      console.log(XsAndOs)
     }
-    bestMove();
-    console.log(XsAndOs)
   }
 })
 
