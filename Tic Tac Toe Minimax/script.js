@@ -41,30 +41,28 @@ ctx.lineTo(200, 300);
 ctx.stroke();
 
 function bestMove() {
+  let board = XsAndOs;
   let bestScore = -Infinity;
   let move;
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      if (XsAndOs[j][i] == null) {
-        XsAndOs[j][i] = 'X'
-        let score = minimax(XsAndOs, 0, false);
-        console.log('minimax', score)
-        XsAndOs[j][i] = null
+      if (board[i][j] == null) {
+        board[i][j] = 'X'
+        let score = minimax(board, 0, false);
+        board[i][j] = null
         if (score > bestScore) {
-          console.log(score)
           bestScore = score;
-          move = { x: i, y: j };
+          move = { x: j, y: i };
         }
       }
     }
   }
   console.log(move);
   insertImage("X", move.x, move.y);
-  currentPlayer = "O";
 }
 
 function minimax(board, depth, isMaximizing) {
-  let result = checkWinner();
+  let result = checkWinner(board);
   if (result != null) {
     return scores[result];
   }
@@ -72,10 +70,10 @@ function minimax(board, depth, isMaximizing) {
     let bestScore = -Infinity;
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        if (board[j][i] == null) {
-          board[j][i] = "X";
+        if (board[i][j] == null) {
+          board[i][j] = "X";
           let score = minimax(board, depth + 1, false);
-          board[j][i] = null;
+          board[i][j] = null;
           bestScore = Math.max(score, bestScore);
         }
       }
@@ -85,10 +83,10 @@ function minimax(board, depth, isMaximizing) {
     let bestScore = Infinity;
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        if (board[j][i] == null) {
-          board[j][i] = "O";
+        if (board[i][j] == null) {
+          board[i][j] = "O";
           let score = minimax(board, depth + 1, true);
-          board[j][i] = null;
+          board[i][j] = null;
           bestScore = Math.min(score, bestScore);
         }
       }
@@ -97,46 +95,46 @@ function minimax(board, depth, isMaximizing) {
   }
 }
 
-function checkWinner() {
-  function equals(a, b, c) {
-    return a == b && b == c && a != null;
-  }
+function equals(a, b, c) {
+  return a == b && b == c && a != null;
+}
+function checkWinner(board) {
 
   let winner = null;
 
   for (let i = 0; i < 3; i++) {
-    if (equals(XsAndOs[i][0], XsAndOs[i][1], XsAndOs[i][2])) {
-      winner = XsAndOs[i][0];
+    if (equals(board[i][0], board[i][1], board[i][2])) {
+      winner = board[i][0];
+      break;
     }
   }
 
   for (let i = 0; i < 3; i++) {
-    if (equals(XsAndOs[0][i], XsAndOs[1][i], XsAndOs[2][i])) {
-      winner = XsAndOs[0][i];
+    if (equals(board[0][i], board[1][i], board[2][i])) {
+      winner = board[0][i];
+      break;
     }
   }
 
-  if (equals(XsAndOs[0][0], XsAndOs[1][1], XsAndOs[2][2])) {
-    winner = XsAndOs[0][0];
+  if (equals(board[0][0], board[1][1], board[2][2])) {
+    winner = board[0][0];
   }
 
-  if (equals(XsAndOs[2][0], XsAndOs[1][1], XsAndOs[2][0])) {
-    winner = XsAndOs[2][0];
+  if (equals(board[2][0], board[1][1], board[0][2])) {
+    winner = board[2][0];
   }
 
-  if (winner == null && boardIsFull()) {
-    // console.log("tie");
+  if (winner == null && boardIsFull(board)) {
     return 'tie';
   } else {
-    // console.log("winner is", winner);
     return winner;
   }
 }
 
-function boardIsFull() {
+function boardIsFull(board) {
   let unfilled_count = [];
-  for (let i = 0; i < XsAndOs.length; i++) {
-    const row = XsAndOs[i];
+  for (let i = 0; i < board.length; i++) {
+    const row = board[i];
     for (let j = 0; j < row.length; j++) {
       const cell = row[j];
       if (cell === null) {
@@ -191,9 +189,8 @@ document.addEventListener("mousedown", function (event) {
 
   let x = ((event.clientX-canvasPosition.left) - ((event.clientX-canvasPosition.left) % 100)) / 100;
   let y = ((event.clientY-canvasPosition.top) - ((event.clientY-canvasPosition.top) % 100)) / 100;
-  
 
-  let result = checkWinner();
+  let result = checkWinner(XsAndOs);
   if (result == null) {
     if (XsAndOs[y][x]==null) {
       if (admin_mode) {
@@ -205,6 +202,9 @@ document.addEventListener("mousedown", function (event) {
       bestMove();
       console.log(XsAndOs)
     }
+  
+  } else {
+    console.log('winner is '+ result)
   }
 })
 
