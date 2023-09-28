@@ -1,357 +1,644 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Dijkstra's Algorithm Visualization</title>
     <style>
-        /* Add some basic styling for the nodes and connections */
-        .node {
-            width: 30px;
-            height: 30px;
-            background-color: #3498db;
-            color: #fff;
-            text-align: center;
-            line-height: 30px;
-            border-radius: 50%;
-            position: absolute;
-        }
+      .node {
+        width: 30px;
+        height: 30px;
+        background-color: #3498db;
+        color: #fff;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 50%;
+        position: absolute;
+      }
 
-        .connection {
-            position: absolute;
-            border: 2px solid #3498db;
-            border-radius: 50%;
-        }
+      .connection {
+        position: absolute;
+        border: 2px solid #3498db;
+        border-radius: 50%;
+      }
 
-        .distance-label {
-            position: absolute;
-            color: #0c0c0c;
-            font-weight: bold;
-    
-        }
+      .distance-label {
+        position: absolute;
+        color: #0c0c0c;
+        font-weight: bold;
+      }
+      .play-again {
+        position: absolute;
+        left: 450px;
+        top: 230px;
+      }
     </style>
-</head>
-<body>
-    <!-- Create nodes A to L and their positions -->
-    <div id="A" class="node" style="left: 50px; top: 50px;">A</div>
-    <div id="B" class="node" style="left: 150px; top: 50px;">B</div>
-    <div id="C" class="node" style="left: 350px; top: 50px;">C</div>
-    <div id="D" class="node" style="left: 400px; top: 150px;">D</div>
-    <div id="E" class="node" style="left: 150px; top: 150px;">E</div>
-    <div id="F" class="node" style="left: 250px; top: 150px;">F</div>
-    <div id="G" class="node" style="left: 50px; top: 250px;">G</div>
-    <div id="H" class="node" style="left: 350px; top: 250px;">H</div>
-    <div id="I" class="node" style="left: 250px; top: 250px;">I</div>
-    <div id="J" class="node" style="left: 50px; top: 350px;">J</div>
-    <div id="K" class="node" style="left: 150px; top: 450px;">K</div>
-    <div id="L" class="node" style="left: 250px; top: 350px;">L</div>
-
-    <!-- Create connections between nodes -->
-    <!-- <div class="connection" style="left: 80px; top: 65px; width: 70px; height: 0;"></div>
-    <div class="distance-label" style="left: 120px; top: 45px;">49</div> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="80" y1="65" x2="140" y2="65" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="100" y="55" class="distance-label">49</text>
-    </svg>
-    
-    <!-- <div class="connection" style="left: 180px; top: 65px; width: 170px; height: 0;"></div>
-    <div class="distance-label" style="left: 250px; top: 45px;">12</div> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="180" y1="65" x2="340" y2="65" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="250" y="55" class="distance-label">12</text>
-    </svg>
-    
-    <!-- <div class="connection" style="left: 65px; top: 80px; width: 0; height: 180px;"></div>
-    <div class="distance-label" style="left: 70px; top: 150px;">27</div> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="65" y1="80" x2="65" y2="240" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="70" y="150" class="distance-label">27</text>
-    </svg>
-    
-    <!-- <div class="connection" style="left: 165px; top: 165px; width: 80px; height: 0;"></div>
-    <div class="distance-label" style="left: 210px; top: 145px;">44</div> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="165" y1="165" x2="245" y2="165" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="200" y="160" class="distance-label">44</text>
-    </svg>
-    
-    <!-- <div class="connection" style="left: 265px; top: 180px; width: 0; height: 70px;"></div>
-    <div class="distance-label" style="left: 270px; top: 210px;">39</div> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="265" y1="180" x2="265" y2="240" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="270" y="220" class="distance-label">39</text>
-    </svg>
-    
-    <!-- <div class="connection" style="left: 80px; top: 265px; width: 165px; height: 0;"></div>
-    <div class="distance-label" style="left: 150px; top: 245px;">18</div> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-        <line x1="80" y1="265" x2="245" y2="265" stroke="#3498db" stroke-width="2" marker-end="url(#arrowhead)" />
-        <text x="160" y="255" class="distance-label">18</text>
-    </svg>    
-    <!-- <div class="connection" style="left: 265px; top: 265px; width: 80px; height: 0;"></div>
-    <div class="distance-label" style="left: 310px; top: 245px;">5</div> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="265" y1="265" x2="340" y2="265" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="310" y="255" class="distance-label">5</text>
-    </svg>
-    
-    <!-- <div class="connection" style="left: 65px; top: 280px; width: 0; height: 70px;"></div>
-    <div class="distance-label" style="left: 70px; top: 300px;">27</div> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-        <line x1="65" y1="280" x2="65" y2="340" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-        <text x="70" y="315" class="distance-label">27</text>
-    </svg>
-    <!-- <div class="connection" style="left: 265px; top: 265px; width: 0; height: 80px;"></div>
-    <div class="distance-label" style="left: 270px; top: 300px;">17</div> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-                <path d="M0,0 L0,10 L10,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-        <line x1="265" y1="265" x2="265" y2="340" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-        <text x="270" y="315" class="distance-label">17</text>
-    </svg>
-    
-
-    <!-- Add missing SVG lines for connections -->
-    <!-- <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <line x1="370" y1="65" x2="415" y2="165" stroke="#3498db" stroke-width="2" />
-        <text x="395" y="115" class="distance-label">19</text>
-    </svg> -->
-    <svg width="600" height="400" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="370" y1="65" x2="405" y2="145" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="395" y="115" class="distance-label">19</text>
-    </svg>
-    
-    <!-- <svg width="260" height="200" style="position: absolute; top: 0; left: 0;">
-        <line x1="70" y1="65" x2="265" y2="165" stroke="#3498db" stroke-width="2" />
-        <text x="185" y="115" class="distance-label">10</text>
-    </svg> -->
-    <svg width="260" height="200" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="265" y1="165" x2="85" y2="75" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="185" y="115" class="distance-label">10</text>
-    </svg>
-
-    
-    <!-- <svg width="160" height="400" style="position: absolute; top: 0; left: 0;">
-        <line x1="170" y1="165" x2="65" y2="265" stroke="#3498db" stroke-width="2" />
-        <text x="95" y="215" class="distance-label">15</text>
-    </svg> -->
-    <svg width="160" height="400" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="170" y1="165" x2="75" y2="245" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="95" y="215" class="distance-label">15</text>
-    </svg>
-    
-    <!-- <svg width="360" height="200" style="position: absolute; top: 0; left: 0;">
-        <line x1="370" y1="65" x2="265" y2="170" stroke="#3498db" stroke-width="2" />
-        <text x="300" y="115" class="distance-label">20</text>
-    </svg> -->
-    <svg width="360" height="200" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="370" y1="65" x2="275" y2="145" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="300" y="115" class="distance-label">20</text>
-    </svg>
-    
-    <!-- <svg width="760" height="600" style="position: absolute; top: 0; left: 0;">
-        <line x1="415" y1="170" x2="370" y2="265" stroke="#3498db" stroke-width="2" />
-        <text x="395" y="220" class="distance-label">25</text>
-    </svg> -->
-    <svg width="760" height="600" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="415" y1="170" x2="370" y2="245" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="395" y="220" class="distance-label">25</text>
-    </svg>
-    
-    <!-- <svg width="760" height="600" style="position: absolute; top: 0; left: 0;">
-        <line x1="65" y1="370" x2="165" y2="470" stroke="#3498db" stroke-width="2" />
-        <text x="120" y="420" class="distance-label">30</text>
-    </svg> -->
-    <svg width="760" height="600" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="65" y1="370" x2="145" y2="460" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="120" y="420" class="distance-label">30</text>
-    </svg>
-    
-    <!-- <svg width="300" height="600" style="position: absolute; top: 0; left: 0;">
-        <line x1="270" y1="370" x2="170" y2="470" stroke="#3498db" stroke-width="2" />
-        <text x="240" y="420" class="distance-label">35</text>
-    </svg> -->
-    <svg width="300" height="600" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="170" y1="470" x2="255" y2="385" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="240" y="420" class="distance-label">35</text>
-    </svg>
-    
-    <!-- <svg width="300" height="500" style="position: absolute; top: 0; left: 0;">
-        <line x1="70" y1="270" x2="170" y2="460" stroke="#3498db" stroke-width="2" />
-        <text x="110" y="340" class="distance-label">40</text>
-    </svg> -->
-    <svg width="300" height="500" style="position: absolute; top: 0; left: 0;">
-        <!-- Define the arrowhead marker -->
-        <defs>
-            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
-            </marker>
-        </defs>
-    
-        <!-- Create the connection line -->
-        <line x1="70" y1="270" x2="155" y2="440" stroke="#3498db" stroke-width="2" marker-end="url(#arrow)" />
-    
-        <!-- Add the distance label -->
-        <text x="110" y="340" class="distance-label">40</text>
-    </svg>
-   
-    
-
-    <!-- Add placeholders for start and end nodes -->
-    <!-- <label for="startNode">Start Node:</label>
-    <select id="startNode"></select>
-    <label for="endNode">End Node:</label>
-    <select id="endNode"></select>
-    <button onclick="calculateDistance()">Calculate Distance</button> -->
-    <!-- Remove the existing select elements and input fields -->
+  </head>
+  <body>
+    <label for="Enter-Name">Enter Name:</label>
+    <input type="text" id="EnterName" />
     <label for="SNodeInput">Start Node:</label>
-    <input type="text" id="startNode">
+    <input type="text" id="startNode" />
     <label for="ENodeInput">End Node:</label>
-    <input type="text" id="endNode">
+    <input type="text" id="endNode" />
+    <input type="text" id="userInput" />
     <button id="submit-button">Submit</button>
+    <label id="result"></label>
 
-    <!-- <script src="script.js"></script> -->
+    <div id="A" class="node" style="left: 50px; top: 50px">A</div>
+    <div id="B" class="node" style="left: 150px; top: 50px">B</div>
+    <div id="C" class="node" style="left: 350px; top: 50px">C</div>
+    <div id="D" class="node" style="left: 400px; top: 150px">D</div>
+    <div id="E" class="node" style="left: 150px; top: 150px">E</div>
+    <div id="F" class="node" style="left: 250px; top: 150px">F</div>
+    <div id="G" class="node" style="left: 50px; top: 250px">G</div>
+    <div id="H" class="node" style="left: 350px; top: 250px">H</div>
+    <div id="I" class="node" style="left: 250px; top: 250px">I</div>
+    <div id="J" class="node" style="left: 50px; top: 350px">J</div>
+    <div id="K" class="node" style="left: 150px; top: 450px">K</div>
+    <div id="L" class="node" style="left: 250px; top: 350px">L</div>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="80"
+        y1="65"
+        x2="140"
+        y2="65"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="100" y="55" class="distance-label">49</text>
+    </svg>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="180"
+        y1="65"
+        x2="340"
+        y2="65"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="250" y="55" class="distance-label">12</text>
+    </svg>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="65"
+        y1="80"
+        x2="65"
+        y2="240"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="70" y="150" class="distance-label">27</text>
+    </svg>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="165"
+        y1="165"
+        x2="245"
+        y2="165"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="200" y="160" class="distance-label">44</text>
+    </svg>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="265"
+        y1="180"
+        x2="265"
+        y2="240"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="270" y="220" class="distance-label">39</text>
+    </svg>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrowhead"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+      <line
+        x1="80"
+        y1="265"
+        x2="245"
+        y2="265"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrowhead)"
+      />
+      <text x="160" y="255" class="distance-label">18</text>
+    </svg>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="350"
+        y1="265"
+        x2="285"
+        y2="265"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="310" y="255" class="distance-label">5</text>
+    </svg>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+      <line
+        x1="65"
+        y1="280"
+        x2="65"
+        y2="340"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+      <text x="70" y="315" class="distance-label">27</text>
+    </svg>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+          markerUnits="strokeWidth"
+        >
+          <path d="M0,0 L0,10 L10,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+      <line
+        x1="265"
+        y1="265"
+        x2="265"
+        y2="340"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+      <text x="270" y="315" class="distance-label">17</text>
+    </svg>
+
+    <svg
+      width="600"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      =
+      <line
+        x1="370"
+        y1="65"
+        x2="405"
+        y2="145"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="395" y="115" class="distance-label">19</text>
+    </svg>
+
+    <svg
+      width="260"
+      height="200"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="265"
+        y1="165"
+        x2="85"
+        y2="75"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="185" y="115" class="distance-label">10</text>
+    </svg>
+
+    <svg
+      width="160"
+      height="400"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="170"
+        y1="165"
+        x2="75"
+        y2="245"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="95" y="215" class="distance-label">15</text>
+    </svg>
+
+    <svg
+      width="360"
+      height="200"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="370"
+        y1="65"
+        x2="275"
+        y2="145"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="300" y="115" class="distance-label">20</text>
+    </svg>
+
+    <svg
+      width="760"
+      height="600"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="415"
+        y1="170"
+        x2="370"
+        y2="245"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="395" y="220" class="distance-label">25</text>
+    </svg>
+    <svg
+      width="760"
+      height="600"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="260"
+        y1="260"
+        x2="180"
+        y2="180"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="220" y="220" class="distance-label">23</text>
+    </svg>
+
+    <svg
+      width="760"
+      height="600"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="65"
+        y1="370"
+        x2="145"
+        y2="460"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="120" y="420" class="distance-label">30</text>
+    </svg>
+
+    <svg
+      width="300"
+      height="600"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="170"
+        y1="470"
+        x2="255"
+        y2="385"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="240" y="420" class="distance-label">35</text>
+    </svg>
+    <svg
+      width="400"
+      height="600"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="265"
+        y1="365"
+        x2="350"
+        y2="285"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="330" y="330" class="distance-label">13</text>
+    </svg>
+
+    <svg
+      width="300"
+      height="500"
+      style="position: absolute; top: 0; left: 0; pointer-events: none"
+    >
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
+          orient="auto"
+        >
+          <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#3498db" />
+        </marker>
+      </defs>
+
+      <line
+        x1="70"
+        y1="270"
+        x2="155"
+        y2="440"
+        stroke="#3498db"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      />
+
+      <text x="110" y="340" class="distance-label">40</text>
+    </svg>
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
