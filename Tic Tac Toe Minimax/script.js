@@ -10,6 +10,9 @@ let scores = {
   O: -1,
   tie: 0,
 };
+
+let winner_pos = []
+
 // borders of the game
 
 ctx.strokeStyle = "black"; // Set the line color
@@ -104,6 +107,7 @@ function checkWinner(board) {
 
   for (let i = 0; i < 3; i++) {
     if (equals(board[i][0], board[i][1], board[i][2])) {
+      winner_pos = [[[i],[0]],[[i],[2]]];
       winner = board[i][0];
       break;
     }
@@ -111,16 +115,19 @@ function checkWinner(board) {
 
   for (let i = 0; i < 3; i++) {
     if (equals(board[0][i], board[1][i], board[2][i])) {
+      winner_pos = [[[0],[i]],[[2],[i]]];
       winner = board[0][i];
       break;
     }
   }
 
   if (equals(board[0][0], board[1][1], board[2][2])) {
+    winner_pos = [[[0],[0]],[[2],[2]]];
     winner = board[0][0];
   }
 
   if (equals(board[2][0], board[1][1], board[0][2])) {
+    winner_pos = [[[2],[0]],[[0],[2]]];
     winner = board[2][0];
   }
 
@@ -172,15 +179,15 @@ function insertImage (imageType, x, y) {
 
 function drawLine (cells) {
   const from = cells[0]
-  const to = cells[2]
+  const to = cells[1]
 
   console.log('from', from, 'to', to)
 
   ctx.strokeStyle = "red";
   ctx.lineWidth = 5;
   ctx.beginPath();
-  ctx.moveTo(from[0]*100+50, from[1]*100+50);
-  ctx.lineTo(to[0]*100+50, to[1]*100+50);
+  ctx.moveTo(from[1]*100+50, from[0]*100+50);
+  ctx.lineTo(to[1]*100+50, to[0]*100+50);
   ctx.stroke(); 
 }
 
@@ -202,9 +209,12 @@ document.addEventListener("mousedown", function (event) {
       bestMove();
       console.log(XsAndOs)
     }
-  
-  } else {
-    console.log('winner is '+ result)
+    result = checkWinner(XsAndOs);
+    if(result != null) {
+      drawLine(winner_pos)
+    }
+  } else { 
+    drawLine(winner_pos)
   }
 })
 
