@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 10px;
+    background-image: url(assets/background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+h1 {
+    color: white;
+    font-weight: bold;
+}
+
+#player{
+    color: white;
+}
+
+#playerName{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 50px);
+    grid-gap: 2px;
+    margin: 20px auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.square {
+    width: 50px;
+    height: 50px;
+    background-color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#startChessGame {
+    background-color: rgb(134, 200, 238);
+}
+
+#resetChessGame {
+    background-color: rgb(238, 228, 134);
+}
+
+#submitResult {
+    background-color: rgb(155, 238, 134);
+}
+
+#result {
+    font-weight: bold;
+    color: white;
+}
