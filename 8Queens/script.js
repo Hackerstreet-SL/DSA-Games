@@ -1,3 +1,22 @@
+import { createConnection } from 'mysql';
+
+// Configure MySQL Database Connection
+const db = createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'eightqueens'
+});
+
+// Connect to the eightsqueen database 
+db.connect((error) => {
+  if (error) {
+    console.error('Cannot connect to the Database', error);
+    return;
+  }
+  console.log('Connect to the Database Successfully');
+});
+
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 
@@ -19,12 +38,12 @@ for (let i = 0; i < 400; i += 50) {
 }
 
 document.addEventListener("mousedown", function (event) {
-  
+
   let canvasPosition = canvas.getBoundingClientRect();
 
-  let x = ((event.clientX-canvasPosition.left) - ((event.clientX-canvasPosition.left) % 50)) / 50;
-  let y = ((event.clientY-canvasPosition.top) - ((event.clientY-canvasPosition.top) % 50)) / 50;
-  
+  let x = ((event.clientX - canvasPosition.left) - ((event.clientX - canvasPosition.left) % 50)) / 50;
+  let y = ((event.clientY - canvasPosition.top) - ((event.clientY - canvasPosition.top) % 50)) / 50;
+
   if (
     N_isSafe(y, x) &&
     NE_isSafe(y, x) &&
@@ -37,6 +56,17 @@ document.addEventListener("mousedown", function (event) {
   ) {
     if (x < 8 && y < 8) {
       if (cells[y][x] != true) {
+        
+        // Insert the queen moves into queens_moves
+        const query = 'INSERT INTO queens_moves (x, y) VALUES (?, ?)';
+        db.query(query, [x, y], (error, results)=>{
+          if(error){
+            console.error('Cannot insert data into queens_moves table:',error);
+          } else{
+            console.log('Insert into queens_moves table successfully',results);
+          }
+        });
+
         // for place the queen
         ctx.fillStyle = "red";
         ctx.lineWidth = 5;
@@ -141,3 +171,8 @@ function NW_isSafe(y, x) {
   }
   return true;
 }
+
+// Close the database connection 
+process.on('exit',()=>{
+  db.end();
+})
