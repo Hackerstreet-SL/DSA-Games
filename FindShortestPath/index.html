@@ -3,6 +3,14 @@
   <head>
     <title>Dijkstra's Algorithm Visualization</title>
     <style>
+      .container {
+        display: block;
+        justify-content: center;
+        margin-top: 100px;
+        margin-left: 500px;
+        text-align: left; /* Center the content horizontally */
+      }
+
       .node {
         width: 30px;
         height: 30px;
@@ -33,15 +41,32 @@
     </style>
   </head>
   <body>
-    <label for="Enter-Name">Enter Name:</label>
-    <input type="text" id="EnterName" />
-    <label for="SNodeInput">Start Node:</label>
-    <input type="text" id="startNode" />
-    <label for="ENodeInput">End Node:</label>
-    <input type="text" id="endNode" />
-    <input type="text" id="userInput" />
-    <button id="submit-button">Submit</button>
-    <label id="result"></label>
+    <div class="container">
+      <table>
+        <tr>
+          <td><label for="Enter-Name">Enter Name:</label></td>
+          <td><input type="text" id="EnterName" /></td>
+        </tr>
+        <tr>
+          <td><label for="SNodeInput">Start Node:</label></td>
+          <td><input id="startNode" /></td>
+        </tr>
+        <tr>
+          <td><label for="SNodeInput">End Node:</label></td>
+          <td><input type="text" id="endNode" /></td>
+        </tr>
+        <tr>
+          <td><label for="SNodeInput">Your Answer</label></td>
+          <td><input type="text" id="userInput" /></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button id="submit-button">Submit</button></td>
+        </tr>
+      </table>
+      <br><br>
+      <label id="result"></label>
+    </div>
 
     <div id="A" class="node" style="left: 50px; top: 50px">A</div>
     <div id="B" class="node" style="left: 150px; top: 50px">B</div>
@@ -83,8 +108,7 @@
         stroke-width="2"
         marker-end="url(#arrow)"
       />
-
-      <text x="100" y="55" class="distance-label">49</text>
+      <text id="AB" x="100" y="55" class="distance-label">49</text>
     </svg>
 
     <svg
@@ -115,7 +139,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="250" y="55" class="distance-label">12</text>
+      <text id="BC" x="250" y="55" class="distance-label">12</text>
     </svg>
 
     <svg
@@ -146,12 +170,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="70" y="150" class="distance-label">27</text>
-    </svg>
-
-    <svg
-      width="600"
-      height="400"
+      <text id="AG" x="70" y="150" class="distance-label">27</text>
       style="position: absolute; top: 0; left: 0; pointer-events: none"
     >
       <defs>
@@ -177,7 +196,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="200" y="160" class="distance-label">44</text>
+      <text id="EF" x="200" y="160" class="distance-label">44</text>
     </svg>
 
     <svg
@@ -208,7 +227,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="270" y="220" class="distance-label">39</text>
+      <text id="FI" x="270" y="220" class="distance-label">39</text>
     </svg>
 
     <svg
@@ -237,7 +256,7 @@
         stroke-width="2"
         marker-end="url(#arrowhead)"
       />
-      <text x="160" y="255" class="distance-label">18</text>
+      <text id="GI" x="160" y="255" class="distance-label">18</text>
     </svg>
 
     <svg
@@ -268,7 +287,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="310" y="255" class="distance-label">5</text>
+      <text id="HI" x="310" y="255" class="distance-label">5</text>
     </svg>
 
     <svg
@@ -297,7 +316,7 @@
         stroke-width="2"
         marker-end="url(#arrow)"
       />
-      <text x="70" y="315" class="distance-label">27</text>
+      <text id="GJ" x="70" y="315" class="distance-label">27</text>
     </svg>
 
     <svg
@@ -327,7 +346,7 @@
         stroke-width="2"
         marker-end="url(#arrow)"
       />
-      <text x="270" y="315" class="distance-label">17</text>
+      <text id="IL" x="270" y="315" class="distance-label">17</text>
     </svg>
 
     <svg
@@ -359,7 +378,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="395" y="115" class="distance-label">19</text>
+      <text id="CD" x="395" y="115" class="distance-label">19</text>
     </svg>
 
     <svg
@@ -390,7 +409,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="185" y="115" class="distance-label">10</text>
+      <text id="FA" x="185" y="115" class="distance-label">10</text>
     </svg>
 
     <svg
@@ -421,7 +440,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="95" y="215" class="distance-label">15</text>
+      <text id="EG" x="95" y="215" class="distance-label">15</text>
     </svg>
 
     <svg
@@ -452,7 +471,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="300" y="115" class="distance-label">20</text>
+      <text id="CF" x="300" y="115" class="distance-label">20</text>
     </svg>
 
     <svg
@@ -483,7 +502,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="395" y="220" class="distance-label">25</text>
+      <text id="DH" x="395" y="220" class="distance-label">25</text>
     </svg>
     <svg
       width="760"
@@ -513,7 +532,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="220" y="220" class="distance-label">23</text>
+      <text id="IE" x="220" y="220" class="distance-label">23</text>
     </svg>
 
     <svg
@@ -544,7 +563,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="120" y="420" class="distance-label">30</text>
+      <text id="JK" x="120" y="420" class="distance-label">30</text>
     </svg>
 
     <svg
@@ -575,7 +594,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="240" y="420" class="distance-label">35</text>
+      <text id="KL" x="240" y="420" class="distance-label">35</text>
     </svg>
     <svg
       width="400"
@@ -605,7 +624,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="330" y="330" class="distance-label">13</text>
+      <text id="LH" x="330" y="330" class="distance-label">13</text>
     </svg>
 
     <svg
@@ -636,7 +655,7 @@
         marker-end="url(#arrow)"
       />
 
-      <text x="110" y="340" class="distance-label">40</text>
+      <text id="GK" x="110" y="340" class="distance-label">40</text>
     </svg>
 
     <script src="script.js"></script>
