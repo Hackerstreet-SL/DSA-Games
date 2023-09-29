@@ -101,6 +101,7 @@ function shortestPath(graph, start, end) {
     current = previous.get(current);
   }
 
+  console.log('distance' , distances.get(end))
   return path;
 }
 
@@ -111,44 +112,49 @@ for (const city of cities) {
   graph.addNode(city);
 }
 
-AB.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("A", "B", AB.textContent);
-AG.textContent =  Math.floor(Math.random() * 90 + 10);
-graph.addEdge("A", "G", AG.textContent);
-BC.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("B", "C", BC.textContent);
-CD.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("C", "D", CD.textContent);
-CF.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("C", "F", CF.textContent);
-DH.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("D", "H", DH.textContent);
-EG.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("E", "G", EG.textContent);
-EF.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("E", "F", EF.textContent);
-FA.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("F", "A", FA.textContent);
-FI.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("F", "I", FI.textContent);
-GJ.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("G", "J", GJ.textContent);
-GI.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("G", "I", GI.textContent);
-GK.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("G", "K", GK.textContent);
-HI.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("H", "I", HI.textContent);
-IL.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("I", "L", IL.textContent);
-JK.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("J", "K", JK.textContent);
-KL.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("K", "L", KL.textContent);
-LH.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("L", "H", LH.textContent);
-IE.textContent = Math.floor(Math.random() * 90 + 10);
-graph.addEdge("I", "E", IE.textContent);
+function generateRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+AB.textContent = generateRandomNumber(50, 1);
+console.log(typeof(AB.textContent))
+graph.addEdge("A", "B", parseInt(AB.textContent));
+AG.textContent =  generateRandomNumber(50, 1);
+graph.addEdge("A", "G", parseInt(AG.textContent));
+BC.textContent = generateRandomNumber(50, 1);
+graph.addEdge("B", "C", parseInt(BC.textContent));
+CD.textContent = generateRandomNumber(50, 1);
+graph.addEdge("C", "D", parseInt(CD.textContent));
+CF.textContent = generateRandomNumber(50, 1);
+graph.addEdge("C", "F", parseInt(CF.textContent));
+DH.textContent = generateRandomNumber(50, 1);
+graph.addEdge("D", "H", parseInt(DH.textContent));
+EG.textContent = generateRandomNumber(50, 1);
+graph.addEdge("E", "G", parseInt(EG.textContent));
+EF.textContent = generateRandomNumber(50, 1);
+graph.addEdge("E", "F", parseInt(EF.textContent));
+FA.textContent = generateRandomNumber(50, 1);
+graph.addEdge("F", "A", parseInt(FA.textContent));
+FI.textContent = generateRandomNumber(50, 1);
+graph.addEdge("F", "I", parseInt(FI.textContent));
+GJ.textContent = generateRandomNumber(50, 1);
+graph.addEdge("G", "J", parseInt(GJ.textContent));
+GI.textContent = generateRandomNumber(50, 1);
+graph.addEdge("G", "I", parseInt(GI.textContent));
+GK.textContent = generateRandomNumber(50, 1);
+graph.addEdge("G", "K", parseInt(GK.textContent));
+HI.textContent = generateRandomNumber(50, 1);
+graph.addEdge("H", "I", parseInt(HI.textContent));
+IL.textContent = generateRandomNumber(50, 1);
+graph.addEdge("I", "L", parseInt(IL.textContent));
+JK.textContent = generateRandomNumber(50, 1);
+graph.addEdge("J", "K", parseInt(JK.textContent));
+KL.textContent = generateRandomNumber(50, 1);
+graph.addEdge("K", "L", parseInt(KL.textContent));
+LH.textContent = generateRandomNumber(50, 1);
+graph.addEdge("L", "H", parseInt(LH.textContent));
+IE.textContent = generateRandomNumber(50, 1);
+graph.addEdge("I", "E", parseInt(IE.textContent));
 
 const input = "ABCDEFGHIJKL";
 const [letter1, letter2] = getRandomLetterPair(input);
