@@ -1,6 +1,8 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 
+const game_status_txt = document.getElementById("game_status")
+
 admin_mode = false;
 const XsAndOs = new Array(3).fill(null).map(() => new Array(3).fill(null));
 console.log(XsAndOs);
@@ -211,9 +213,11 @@ document.addEventListener("mousedown", function (event) {
     }
     result = checkWinner(XsAndOs);
     if(result != null) {
+      game_status_txt.textContent = `Winner is ${result}`
       drawLine(winner_pos)
     }
   } else { 
+    game_status_txt.textContent = `Winner is ${result}`
     drawLine(winner_pos)
   }
 })

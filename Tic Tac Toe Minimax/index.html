@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div align="center">
+  <div class="center-container">
         <h1>Tic Tac Toe</h1>
-        <canvas
-          id="canvas1"
-          width="300"
-          height="300">
-        </canvas>
+        <div align="center">
+          <canvas
+            id="canvas1"
+            width="300"
+            height="300">
+          </canvas>
+        </div>
+        <div align="center">
+          <br><br>
+          Enter your Name:  <input type="text" id="player-name"/>
+          <br><br>
+          <text id="game_status" class="distance-label"></text>
+        </div>
       </div>
       <script src="script.js"></script>
 </body>
