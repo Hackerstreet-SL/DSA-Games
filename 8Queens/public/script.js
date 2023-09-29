@@ -1,22 +1,3 @@
-import { createConnection } from 'mysql';
-
-// Configure MySQL Database Connection
-const db = createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'eightqueens'
-});
-
-// Connect to the eightsqueen database 
-db.connect((error) => {
-  if (error) {
-    console.error('Cannot connect to the Database', error);
-    return;
-  }
-  console.log('Connect to the Database Successfully');
-});
-
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 
@@ -56,16 +37,30 @@ document.addEventListener("mousedown", function (event) {
   ) {
     if (x < 8 && y < 8) {
       if (cells[y][x] != true) {
-        
-        // Insert the queen moves into queens_moves
-        const query = 'INSERT INTO queens_moves (x, y) VALUES (?, ?)';
-        db.query(query, [x, y], (error, results)=>{
-          if(error){
-            console.error('Cannot insert data into queens_moves table:',error);
-          } else{
-            console.log('Insert into queens_moves table successfully',results);
-          }
-        });
+
+        // Prompt the player for their name
+        const playerName = prompt("Enter your name:");
+        if (!playerName) {
+          console.log("Player name is required");
+          return;
+        }
+
+        // Send the player name and the queens locations to the server
+        const queenPlacement = { x, y };
+        fetch('/storeQueensPlacements', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ playerName, queenPlacement }), 
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data.message);
+          })
+          .catch(error => {
+            console.error('Cannot sending data to server:', error);
+          });
 
         // for place the queen
         ctx.fillStyle = "red";
@@ -171,8 +166,3 @@ function NW_isSafe(y, x) {
   }
   return true;
 }
-
-// Close the database connection 
-process.on('exit',()=>{
-  db.end();
-})
