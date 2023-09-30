@@ -38,22 +38,43 @@ app.post('/storeQueenMoves', (req, res) => {
             return;
         }
 
-        const insertQuery = 'INSERT INTO eight_queens (playerName, moves) VALUES (?, ?)';
-        const values = [playerName, JSON.stringify(moves)];
+        const selectQuery = 'SELECT playerName FROM eight_queens WHERE moves = ?';
+        const values = [JSON.stringify(moves)];
 
-        // Insert player data into the database
-        connection.query(insertQuery, values, (insertErr, result) => {
-            // Release the connection back to the pool
-            connection.release();
-
-            if (insertErr) {
-                console.error('Error inserting data into MySQL:', insertErr);
-                res.status(500).json({ message: 'Database insertion error' });
+        // Check if the moves already exist in the database
+        connection.query(selectQuery, values, (selectErr, result) => {
+            if (selectErr) {
+                console.error('Error checking data in MySQL:', selectErr);
+                res.status(500).json({ message: 'Database query error' });
+                connection.release();
                 return;
             }
 
-            console.log('Player data inserted:', result.insertId);
-            res.json({ message: 'Data stored successfully' });
+            if (result.length > 0) {
+                // Moves already exist for another player
+                res.status(409).json({ message: 'Moves already exist for another player' });
+                connection.release();
+                return;
+            }
+
+            // If moves don't exist, proceed with inserting data
+            const insertQuery = 'INSERT INTO eight_queens (playerName, moves) VALUES (?, ?)';
+            const insertValues = [playerName, JSON.stringify(moves)];
+
+            // Insert player data into the database
+            connection.query(insertQuery, insertValues, (insertErr, insertResult) => {
+                // Release the connection back to the pool
+                connection.release();
+
+                if (insertErr) {
+                    console.error('Error inserting data into MySQL:', insertErr);
+                    res.status(500).json({ message: 'Database insertion error' });
+                    return;
+                }
+
+                console.log('Player data inserted:', insertResult.insertId);
+                res.json({ message: 'Data stored successfully' });
+            });
         });
     });
 });
