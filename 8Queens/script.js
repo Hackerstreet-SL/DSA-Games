@@ -55,6 +55,12 @@ document.addEventListener("mousedown", function (event) {
   // console.log(cells);
 });
 
+document.addEventListener("keyup", function(event) {
+  if (event.key === "Alt") {
+    console.log(solutions(0))
+  }
+});
+
 submit_button.addEventListener("click", function () {
   console.log("Submit");
   let isSafe = true;
@@ -82,6 +88,31 @@ submit_button.addEventListener("click", function () {
     console.log('Is safe:', isSafe);
   }
 });
+
+function solutions(row) {
+  let allPossibleCases = [];
+
+  if (row === board_size) {
+    // Found a solution, clone the queens array and add it to allPossibleCases
+    allPossibleCases.push([...queens]);
+    return allPossibleCases;
+  }
+
+  for (let col = 0; col < board_size; col++) {
+    if (isSafe(row, col)) {
+      queens[row] = col;
+      const solutionsForNextRow = solutions(row + 1);
+      allPossibleCases.push(...solutionsForNextRow);
+      queens[row] = null;
+    }
+  }
+
+  return allPossibleCases;
+}
+
+function isSafe(row, col) {
+  return isDiagonalSafe(row, col) && isStraightSafe(row, col)
+}
 
 function isDiagonalSafe(row, col) {
   for (let i = 0; i < row; i++) {
