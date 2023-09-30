@@ -5,25 +5,25 @@ const user_input = document.getElementById("userInput");
 const resultElement = document.getElementById("result");
 const nameOfPlayer = document.getElementById("EnterName");
 
-const AB  = document.getElementById("AB");
-const AG  = document.getElementById("AG");
-const AF  = document.getElementById("AF");
-const BC  = document.getElementById("BC");
-const CD  = document.getElementById("CD");
-const CF  = document.getElementById("CF");
-const DH  = document.getElementById("DH");
-const EG  = document.getElementById("EG");
-const EF  = document.getElementById("EF");
-const FI  = document.getElementById("FI");
-const GJ  = document.getElementById("GJ");
-const GI  = document.getElementById("GI");
-const GK  = document.getElementById("GK");
-const HI  = document.getElementById("HI");
-const HL  = document.getElementById("HL");
-const IL  = document.getElementById("IL");
-const JK  = document.getElementById("JK");
-const KL  = document.getElementById("KL");
-const IE  = document.getElementById("IE");
+const AB = document.getElementById("AB");
+const AG = document.getElementById("AG");
+const AF = document.getElementById("AF");
+const BC = document.getElementById("BC");
+const CD = document.getElementById("CD");
+const CF = document.getElementById("CF");
+const DH = document.getElementById("DH");
+const EG = document.getElementById("EG");
+const EF = document.getElementById("EF");
+const FI = document.getElementById("FI");
+const GJ = document.getElementById("GJ");
+const GI = document.getElementById("GI");
+const GK = document.getElementById("GK");
+const HI = document.getElementById("HI");
+const HL = document.getElementById("HL");
+const IL = document.getElementById("IL");
+const JK = document.getElementById("JK");
+const KL = document.getElementById("KL");
+const IE = document.getElementById("IE");
 
 // const playAgainButton = document.getElementById('play-again-now');
 
@@ -101,7 +101,7 @@ function shortestPath(graph, start, end) {
     current = previous.get(current);
   }
 
-  console.log('distance' , distances.get(end))
+  console.log('distance', distances.get(end))
   return path;
 }
 
@@ -117,9 +117,9 @@ function generateRandomNumber(min, max) {
 }
 
 AB.textContent = generateRandomNumber(50, 1);
-console.log(typeof(AB.textContent))
+console.log(typeof (AB.textContent))
 graph.addEdge("A", "B", parseInt(AB.textContent));
-AG.textContent =  generateRandomNumber(50, 1);
+AG.textContent = generateRandomNumber(50, 1);
 graph.addEdge("A", "G", parseInt(AG.textContent));
 BC.textContent = generateRandomNumber(50, 1);
 graph.addEdge("B", "C", parseInt(BC.textContent));
@@ -169,13 +169,18 @@ submit_button.addEventListener("click", () => {
   const userAnswer = userInput.value;
   console.log(userAnswer);
   const shortestPathResult = shortestPath(graph, letter1, letter2);
-
   console.log(shortestPathResult);
   const shortWord = shortestPathResult.join("");
+
   console.log(shortWord);
   console.log(`Shortest path from ${letter1} to ${letter2}: ${shortestPathResult.join(" -> ")}`);
   if (userAnswer === shortWord) {
     resultElement.textContent = `Correct! You Win! : ${shortestPathResult.join(" -> ")}`;
+
+    // Send player name and locations to the server
+    const playerName = nameOfPlayer.value;
+    sendPlayerData(playerName, shortestPathResult);
+
   } else {
     resultElement.textContent = `Incorrect. The correct Shortest path is: ${shortestPathResult.join(" -> ")}`;
   }
@@ -184,3 +189,17 @@ submit_button.addEventListener("click", () => {
   userInput.disabled = true;
   // playAgainButton.style.display = 'block';
 });
+
+// Function to send player results to the server
+function sendPlayerData(playerName, locations) {
+  fetch('/storeLocations', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ playerName, locations }),
+  })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Cannot sending player result:', error));
+}
