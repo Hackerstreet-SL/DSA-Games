@@ -74,6 +74,19 @@ function binarySearch(array, target) {
   return -1;
 }
 
+// Function to send player results to the server
+function sendPlayerAnswer(playerName, userAnswer) {
+  fetch('/storeAnswer', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ playerName, userAnswer }),
+  })
+    .then(response => response.json())
+    .then(data => console.log(data.message))
+    .catch(error => console.error('Cannot sending player answer:', error));
+}
 
 // Function to play the game
 function playGame() {
@@ -87,7 +100,13 @@ function playGame() {
 
   const lcs = longestCommonLetterSequence(s1, s2); // Calculate the correct answer
   submitButton.addEventListener('click', () => {
+    const playerName = userName.value;
     const userAnswer = userInput.value;
+
+    if (!playerName) {
+      alert('Please enter your name.');
+      return;
+    }
 
     if (userAnswer == lcs) {
       resultElement.textContent = `Correct! You Win! The longest common letter sequence is: ${lcs}`;
@@ -98,14 +117,19 @@ function playGame() {
 
     submitButton.disabled = true;
     userInput.disabled = true;
+    userName.disabled = true;
     playAgainButton.style.display = 'block';
-    
+
+    //Send player data to server
+    sendPlayerAnswer(playerName, userAnswer);
   });
 
   playAgainButton.addEventListener('click', () => {
     userInput.value = '';
+    userName.value='';
     submitButton.disabled = false;
     userInput.disabled = false;
+    userName.disabled = false;
     playAgainButton.style.display = 'none';
     playGame();
   });
