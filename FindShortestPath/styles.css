@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 10px;
+    background-image: url(./assets/background-2.jpg);
+    background-repeat: no-repeat;
+    /* background-position: right bottom; */
+    background-attachment: fixed;
+    background-size: cover;
+    background: linear-gradient(rgba(241, 238, 238, 0), rgba(255, 255, 255, 0.034)),;
+}
+
+h1 {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+.container {
+    display: block;
+    justify-content: center;
+    margin-top: 100px;
+    margin-left: 500px;
+    text-align: left;
+    padding: 40px;
+}
+
+.node {
+    width: 30px;
+    height: 30px;
+    background-color: #3498db;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.connection {
+    position: absolute;
+    border: 2px solid #3498db;
+    border-radius: 50%;
+}
+
+.distance-label {
+    position: absolute;
+    font-weight: bold;
+    color:white;
+}
+
+.play-again {
+    position: absolute;
+    left: 450px;
+    top: 230px;
+}
+
+#EnterName{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#startNode{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#endNode{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;   
+}
+
+#userInput{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#player-name{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+#start-node{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+#end-node{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+#submit-answer{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+#submit-button{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 240px;
+    background-color: rgb(155, 238, 134);
+}
+
+#result {
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+}
