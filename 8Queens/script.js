@@ -1,10 +1,13 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
+const submit_button = document.getElementById("submit")
 
 let board_size = 8;
 
 const cells = new Array(8).fill(null).map(() => new Array(8).fill(false));
 console.log(cells);
+
+let queens = new Array(8).fill(null);
 
 let color = true;
 
@@ -24,41 +27,49 @@ document.addEventListener("mousedown", function (event) {
 
   let x = ((event.clientX-canvasPosition.left) - ((event.clientX-canvasPosition.left) % 50)) / 50;
   let y = ((event.clientY-canvasPosition.top) - ((event.clientY-canvasPosition.top) % 50)) / 50;
-  
-  if (
-    N_isSafe(y, x) &&
-    NE_isSafe(y, x) &&
-    E_isSafe(y, x) &&
-    SE_isSafe(y, x) &&
-    S_isSafe(y, x) &&
-    SW_isSafe(y, x) &&
-    W_isSafe(y, x) &&
-    NW_isSafe(y, x)
-  ) {
-    if (x < 8 && y < 8) {
-      if (cells[y][x] != true) {
-        // for place the queen
-        ctx.fillStyle = "red";
-        ctx.lineWidth = 5;
-        ctx.beginPath();
-        ctx.arc(x * 50 + 25, y * 50 + 25, 20, 0, Math.PI * 2);
-        ctx.fill();
-        cells[y][x] = true;
-      } else {
-        // for replace the queen
-        if ((x + y) % 2 == 0) ctx.fillStyle = "black";
-        else ctx.fillStyle = "yellow";
-        ctx.fillRect(x * 50, y * 50, 50, 50);
-        cells[y][x] = false;
-      }
+    
+  if (x < 8 && y < 8) {
+    if (cells[y][x] != true) {
+      // for place the queen
+      ctx.fillStyle = "red";
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.arc(x * 50 + 25, y * 50 + 25, 20, 0, Math.PI * 2);
+      ctx.fill();
+      cells[y][x] = true;
+      queens[y] = x;
+      
+    } else {
+      // for replace the queen
+      if ((x + y) % 2 == 0) ctx.fillStyle = "black";
+      else ctx.fillStyle = "yellow";
+      ctx.fillRect(x * 50, y * 50, 50, 50);
+      cells[y][x] = false;
+      queens[y] = null;
     }
   }
 
-  console.log(cells);
+  // console.log(cells);
 });
+
+submit.addEventListener("click", function () {
+  console.log("Submit")
+  console.log(queens)
+  let status = true;
+  for (let i = 0; i < 8; i++) {
+    if (queens[i] !== null) {
+      if (!NE_isSafe(i, queens[i]) || !SE_isSafe(i, queens[i]) || !SW_isSafe(i, queens[i]) || !NW_isSafe(i, queens[i])) {
+        status = false;
+        break;
+      }
+    }
+  }
+  console.log('win', status)
+})
 
 function N_isSafe(y, x) {
   for (let i = y; i >= 0; i--) {
+
     if (cells[i][x] == true) {
       console.log("North is not safe");
       return false;
