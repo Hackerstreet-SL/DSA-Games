@@ -2,6 +2,7 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 const submit_button = document.getElementById("submit")
 const game_status = document.getElementById("game_status")
+const txt_player_name = document.getElementById("player-name")
 
 let board_size = 8;
 
@@ -23,12 +24,12 @@ for (let i = 0; i < 400; i += 50) {
 }
 
 document.addEventListener("mousedown", function (event) {
-  
+
   let canvasPosition = canvas.getBoundingClientRect();
 
-  let x = ((event.clientX-canvasPosition.left) - ((event.clientX-canvasPosition.left) % 50)) / 50;
-  let y = ((event.clientY-canvasPosition.top) - ((event.clientY-canvasPosition.top) % 50)) / 50;
-    
+  let x = ((event.clientX - canvasPosition.left) - ((event.clientX - canvasPosition.left) % 50)) / 50;
+  let y = ((event.clientY - canvasPosition.top) - ((event.clientY - canvasPosition.top) % 50)) / 50;
+
   if (x < 8 && y < 8) {
     if (cells[y][x] != true) {
       // for place the queen
@@ -40,7 +41,7 @@ document.addEventListener("mousedown", function (event) {
       cells[y][x] = true;
       queens[y] = x;
       markedCount++;
-      
+
     } else {
       // for replace the queen
       if ((x + y) % 2 == 0) ctx.fillStyle = "black";
@@ -55,7 +56,7 @@ document.addEventListener("mousedown", function (event) {
   // console.log(cells);
 });
 
-document.addEventListener("keyup", function(event) {
+document.addEventListener("keyup", function (event) {
   if (event.key === "Alt") {
     console.log(solutions(0))
   }
@@ -78,16 +79,54 @@ submit_button.addEventListener("click", function () {
   }
   if (markedCount === 8) {
     console.log('Is safe:', isSafe);
-    if (isSafe===true) {
-      game_status.textContent = 'You Won !';
+    if (isSafe === true) {
+      const playerName = txt_player_name.value;
+      const moves = queens;
+      storePlayerData(playerName, moves);
+      //game_status.textContent = 'You Won !' + txt_player_name.value;
     }
-    else game_status.textContent = 'Try Again';
-  } 
+    else game_status.textContent = 'Try Again' + txt_player_name.value;
+  }
   else {
     game_status.textContent = 'You need to mark 8 queens to click submit';
     console.log('Is safe:', isSafe);
   }
 });
+
+function storePlayerData(playerName, moves) {
+  fetch('/storeQueenMoves', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      playerName: playerName,
+      moves: moves,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.message);
+      game_status.textContent = 'Data saved successfully for ' + playerName;
+      getPlayerData();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      game_status.textContent = 'Failed to save data for ' + playerName;
+    });
+}
+
+function getPlayerData() {
+  fetch('/getQueenMoves')
+    .then((response) => response.json())
+    .then((data) => {
+      const players = data.players;
+      console.log('Player data:', players);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    })
+}
 
 function solutions(row) {
   let allPossibleCases = [];
