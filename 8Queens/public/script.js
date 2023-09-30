@@ -122,7 +122,8 @@ function checkExistMoves(playerName, moves) {
     })
     .catch((error)=>{
         console.error('Error:', error);
-        game_status.textContent = 'Failed to save data for ' + playerName;
+        //game_status.textContent = 'Failed to save data for ' + playerName;
+        game_status.textContent = 'Moves already exist for another player';
     });
 }
 
