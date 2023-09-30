@@ -154,6 +154,45 @@ function boardIsFull(board) {
   return unfilled_count.length === 0;
 }
 
+// Function to send game result to the server
+function sendGameResult(playerName, result) {
+  const data = {
+      playerName: playerName,
+      result: result,
+  };
+
+  fetch('/storeResults', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+  })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data.message);
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+}
+
+// Function to handle game over and send game result to the server
+function handleGameOver(result) {
+  // Display game result to the user
+  game_status_txt.textContent = result;
+
+  if (result.includes("Winner")) {
+      drawLine(winner_pos);
+  }
+
+  const playerName = prompt('Enter your name:');
+
+  if (playerName) {
+      sendGameResult(playerName, result);
+  }
+}
+
 /**
  * @param {string} imageType should be X or O 
  * @param {number} x horizontal position
@@ -214,7 +253,8 @@ document.addEventListener("mousedown", function (event) {
     result = checkWinner(XsAndOs);
     if(result != null) {
       game_status_txt.textContent = `Winner is ${result}`
-      drawLine(winner_pos)
+      drawLine(winner_pos);
+      handleGameOver(`Winner is ${result}`)
     }
   } else { 
     game_status_txt.textContent = `Winner is ${result}`
