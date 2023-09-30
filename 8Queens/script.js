@@ -1,13 +1,14 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 const submit_button = document.getElementById("submit")
+const game_status = document.getElementById("game_status")
 
 let board_size = 8;
 
 const cells = new Array(8).fill(null).map(() => new Array(8).fill(false));
 console.log(cells);
-
 let queens = new Array(8).fill(null);
+let markedCount = 0;
 
 let color = true;
 
@@ -38,6 +39,7 @@ document.addEventListener("mousedown", function (event) {
       ctx.fill();
       cells[y][x] = true;
       queens[y] = x;
+      markedCount++;
       
     } else {
       // for replace the queen
@@ -46,6 +48,7 @@ document.addEventListener("mousedown", function (event) {
       ctx.fillRect(x * 50, y * 50, 50, 50);
       cells[y][x] = false;
       queens[y] = null;
+      markedCount--;
     }
   }
 
@@ -54,7 +57,6 @@ document.addEventListener("mousedown", function (event) {
 
 submit_button.addEventListener("click", function () {
   console.log("Submit");
-  console.log(queens);
   let isSafe = true;
 
   for (let i = 0; i < 8; i++) {
@@ -68,7 +70,17 @@ submit_button.addEventListener("click", function () {
     }
     if (!isSafe) break;
   }
-  console.log('Is safe:', isSafe);
+  if (markedCount === 8) {
+    console.log('Is safe:', isSafe);
+    if (isSafe===true) {
+      game_status.textContent = 'You Won !';
+    }
+    else game_status.textContent = 'Try Again';
+  } 
+  else {
+    game_status.textContent = 'You need to mark 8 queens to click submit';
+    console.log('Is safe:', isSafe);
+  }
 });
 
 function isDiagonalSafe(row, col) {
