@@ -164,14 +164,14 @@ function insertImage (imageType, x, y) {
   const icon = new Image();
 
   if (imageType == 'X') {
-    icon.src = './Images/icon-x.png';
+    icon.src = './assets/icon-x.png';
     icon.onload = function() {
       ctx.drawImage(icon, 15, 12, 100, 110, x*100+25, y*100+25, 150, 150, 0, 0);  
     }
     XsAndOs[y][x] = 'X';
 
   } else if (imageType == 'O') {
-    icon.src = './Images/icon-o.png';
+    icon.src = './assets/icon-o.png';
     icon.onload = function() {
       ctx.drawImage(icon, 5, 1, 160, 170, x*100+25, y*100+25, 150, 150, 0, 0);  
     }
