@@ -18,26 +18,60 @@ function generateRandomAlphabeticString(length) {
   return result;
 }
 
-// Function to find the longest common sequence of letters between two strings
 function longestCommonLetterSequence(s1, s2) {
-  const set1 = new Set(s1);
-  const set2 = new Set(s2);
-  const commonLetters = [];
+  // Convert the strings to arrays 
+  const array1 = Array.from(s1);
+  const array2 = Array.from(s2);
+
   
-  // Convert the sets to arrays for easier iteration
-  const array1 = Array.from(set1);
-  const array2 = Array.from(set2);
-  
+  //array for store same letters
+  let store = [];
+  // Sort the 2nd arrays in alphabetical order for binary search
+  array2.sort();
+
+  // Perform a binary search to find the longest common sequance
   for (let i = 0; i < array1.length; i++) {
-    for (let j = 0; j < array2.length; j++) {
-      if (array1[i] == array2[j]) {
-        commonLetters.push(array1[i]);
-        break; // Break to avoid duplicate letters in the result
-      }
+    const index = binarySearch(array2, array1[i]);
+    if (index >= 0) {
+      store.push(array1[i]);
     }
   }
+  // Create a set 
+  const seen = new Set();
+  // Iterate over the array and add each string to the set
+  store.forEach((string) => {
+    seen.add(string);
+  });
+  // Create a new array to store the unique strings
+  const newArray = [];
+
+  // Iterate over the set and add each string to the new array
+  seen.forEach((string) => {
+    newArray.push(string);
+  });
   
-  return commonLetters.join('');
+  
+  const lcls = newArray.join('');
+  return lcls;// Return the LCLS string
+}
+
+
+function binarySearch(array, target) {
+  let low = 0;
+  let high = array.length - 1;
+  
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    if (array[mid] === target) {
+      return mid;
+    } else if (target < array[mid]) {
+      high = mid - 1;
+    } else {
+      low = mid + 1;
+    }
+  }
+
+  return -1;
 }
 
 
@@ -48,15 +82,16 @@ function playGame() {
 
   string1Element.textContent = s1;
   string2Element.textContent = s2;
+  
   resultElement.textContent = '';
 
   const lcs = longestCommonLetterSequence(s1, s2); // Calculate the correct answer
-
   submitButton.addEventListener('click', () => {
     const userAnswer = userInput.value;
 
     if (userAnswer == lcs) {
       resultElement.textContent = `Correct! You Win! The longest common letter sequence is: ${lcs}`;
+      
     } else {
       resultElement.textContent = `Incorrect. The correct longest common letter sequence is: ${lcs}`;
     }
