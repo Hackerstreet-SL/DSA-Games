@@ -52,103 +52,48 @@ document.addEventListener("mousedown", function (event) {
   // console.log(cells);
 });
 
-submit.addEventListener("click", function () {
-  console.log("Submit")
-  console.log(queens)
-  let status = true;
+submit_button.addEventListener("click", function () {
+  console.log("Submit");
+  console.log(queens);
+  let isSafe = true;
+
   for (let i = 0; i < 8; i++) {
-    if (queens[i] !== null) {
-      if (!NE_isSafe(i, queens[i]) || !SE_isSafe(i, queens[i]) || !SW_isSafe(i, queens[i]) || !NW_isSafe(i, queens[i])) {
-        status = false;
-        break;
+    for (let j = 0; j < 8; j++) {
+      if (cells[i][j] == true) {
+        if (!isDiagonalSafe(i, j) || !isStraightSafe(i, j)) {
+          isSafe = false;
+          break;
+        }
       }
     }
+    if (!isSafe) break;
   }
-  console.log('win', status)
-})
+  console.log('Is safe:', isSafe);
+});
 
-function N_isSafe(y, x) {
-  for (let i = y; i >= 0; i--) {
+function isDiagonalSafe(row, col) {
+  for (let i = 0; i < row; i++) {
+    if (queens[i] !== null && Math.abs(row - i) === Math.abs(col - queens[i])) {
+      return false;
+    }
+  }
+  return true;
+}
 
-    if (cells[i][x] == true) {
-      console.log("North is not safe");
+function isStraightSafe(row, col) {
+  // Check horizontally
+  for (let i = 0; i < col; i++) {
+    if (queens[row] !== null && queens[row] === i) {
       return false;
-      break;
     }
   }
-  return true;
-}
-function NE_isSafe(y, x) {
-  for (let i = 0; i < board_size; i++) {
-    if (y - i < 0 || x + i > board_size) break;
-    if (cells[y - i][x + i] == true) {
-      console.log("NorthEast is not safe");
+
+  // Check vertically
+  for (let i = 0; i < row; i++) {
+    if (queens[i] !== null && queens[i] === col) {
       return false;
-      break;
     }
   }
-  return true;
-}
-function E_isSafe(y, x) {
-  for (let i = x; i < board_size; i++) {
-    if (cells[y][i] == true) {
-      console.log("East is not safe");
-      return false;
-      break;
-    }
-  }
-  return true;
-}
-function SE_isSafe(y, x) {
-  for (let i = 0; i < board_size; i++) {
-    if (x + i >= board_size || y + i >= board_size) break;
-    if (cells[y + i][x + i] == true) {
-      console.log("SouthEast is not safe");
-      return false;
-      break;
-    }
-  }
-  return true;
-}
-function S_isSafe(y, x) {
-  for (let i = y; i < board_size; i++) {
-    if (cells[i][x] == true) {
-      console.log("South is not safe");
-      return false;
-      break;
-    }
-  }
-  return true;
-}
-function SW_isSafe(y, x) {
-  for (let i = 0; i < board_size; i++) {
-    if (y + i >= board_size || x - i < 0) break;
-    if (cells[y + i][x - i] == true) {
-      console.log("SouthWest is not safe");
-      return false;
-      break;
-    }
-  }
-  return true;
-}
-function W_isSafe(y, x) {
-  for (let i = x; i >= 0; i--) {
-    if (cells[y][i] == true) {
-      console.log("West is not safe");
-      return false;
-      break;
-    }
-  }
-  return true;
-}
-function NW_isSafe(y, x) {
-  for (let i = 0; i < board_size; i++) {
-    if (y - i < 0 || x - i < 0) break;
-    if (cells[y - i][x - i] == true) {
-      console.log("NorthWest is not safe");
-      return false;
-      break;
-    }
-  }
+
   return true;
 }
