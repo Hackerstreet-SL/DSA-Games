@@ -15,7 +15,7 @@ const dbConfig = {
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'knightstour',
+    database: 'dsa_games',
 };
 
 // Create a MySQL connection pool
@@ -38,7 +38,7 @@ app.post('/storeMoves', (req, res) => {
             return;
         }
 
-        const insertQuery = 'INSERT INTO players (playerName, moves) VALUES (?, ?)';
+        const insertQuery = 'INSERT INTO knights_tour (playerName, moves) VALUES (?, ?)';
         const values = [playerName, JSON.stringify(moves)];
 
         // Insert player data into the database
