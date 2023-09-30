@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    background-image: url(assets/background-4.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+h1{
+    color: white;
+    font-weight: bold;
+}
+
+#game-container{
+    justify-items: center;
+}
+
+#user{
+    color: white;
+    margin-top: 100px;
+    padding: 20px;
+}
+
+#user-name{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#label1{
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#string1{
+    color: white;
+    font-weight: bold;
+    padding: 20px;
+}
+
+#label2{
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#string2{
+    color: white;
+    font-weight: bold;
+    padding: 20px;
+}
+
+#label3{
+    color: white;
+}
+
+#user-input{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#submit-button{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgb(155, 238, 134);
+}
+
+#result{
+    font-weight: bold;
+    color: white;
+}
+
+#play-again-button{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgb(238, 228, 134);
+}
