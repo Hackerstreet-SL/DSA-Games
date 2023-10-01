@@ -279,3 +279,6 @@ document.addEventListener("keyup", function (event) {
     // logic();
   }
 })
+
+
+module.exports = minimax;
