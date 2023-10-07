@@ -94,6 +94,7 @@ submit_button.addEventListener("click", function () {
     }
 });
 
+// Function to check if the queen's moves exist and store them
 function checkExistMoves(playerName, moves) {
     fetch('/storeQueenMoves', {
         method: 'POST',
@@ -107,6 +108,7 @@ function checkExistMoves(playerName, moves) {
     })
     .then((response)=>{
         if(response.status === 409){
+            // Handle a conflict status (moves already exist for another player)
             return response.json().then((data)=>{
                 // throw new Error(data.message);
                 console.log(data.message);
@@ -116,6 +118,7 @@ function checkExistMoves(playerName, moves) {
         }
     })
     .then((data)=>{
+        // Display a success message and call 'getPlayerData' to retrieve player data
         console.log(data.message);
         game_status.textContent = 'Data saved successfully for ' + playerName;
         getPlayerData();
@@ -150,6 +153,7 @@ function checkExistMoves(playerName, moves) {
 //         });
 // }
 
+// Function to retrieve player data from the server
 function getPlayerData() {
     fetch('/getQueenMoves')
         .then((response) => response.json())
