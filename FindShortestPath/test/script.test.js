@@ -1,4 +1,4 @@
-const { Graph, dijkstra, shortestPath } = require('./your-script-file'); // Replace with the actual path to your script file
+const { Graph, dijkstra, shortestPath } = require('../public/script'); // Replace with the actual path to your script file
 
 describe('Graph Class', () => {
   let graph;
