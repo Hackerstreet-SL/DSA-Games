@@ -27,6 +27,7 @@ const IE = document.getElementById("IE");
 
 // const playAgainButton = document.getElementById('play-again-now');
 
+// Define a class called 'Graph' for representing a graph
 class Graph {
   constructor() {
     this.nodes = new Set();
@@ -43,29 +44,31 @@ class Graph {
   }
 }
 
+// Function to generate a random pair of letters from the input string
 function getRandomLetterPair(input) {
   if (input.length < 2) {
     throw new Error("Input string must contain at least 2 letters.");
   }
-
+  // Generate two random indices to pick two random letters
   const index1 = Math.floor(Math.random() * input.length);
   let index2 = Math.floor(Math.random() * input.length);
-
+  // Ensure that the two indices are different
   while (index2 === index1) {
     index2 = Math.floor(Math.random() * input.length);
   }
-
+  // Get the letters at the selected indices and return them as an array
   const letter1 = input.charAt(index1);
   const letter2 = input.charAt(index2);
-
   return [letter1, letter2];
 }
 
+// Function to perform Dijkstra's algorithm on a graph and find the shortest path
 function dijkstra(graph, start) {
   const distances = new Map();
   const previous = new Map();
   const queue = [];
 
+  // Initialize distances and previous nodes for all nodes in the graph
   for (const node of graph.nodes) {
     distances.set(node, Infinity);
     previous.set(node, null);
@@ -74,20 +77,26 @@ function dijkstra(graph, start) {
 
   distances.set(start, 0);
 
+  // Main Dijkstra's algorithm loop
   while (queue.length > 0) {
+    // Sort the queue based on distances (ascending order)
     queue.sort((a, b) => distances.get(a) - distances.get(b));
+    // Get the node with the smallest distance
     const smallest = queue.shift();
 
+    // Iterate through neighbors of the current node
     for (const neighborData of graph.edges.get(smallest)) {
       const neighbor = neighborData.node;
       const alt = distances.get(smallest) + neighborData.weight;
       if (alt < distances.get(neighbor)) {
+        // Update distance if a shorter path is found
         distances.set(neighbor, alt);
+        // Update the previous node
         previous.set(neighbor, smallest);
       }
     }
   }
-
+  // Return the calculated distances and previous nodes
   return { distances, previous };
 }
 
@@ -105,9 +114,11 @@ function shortestPath(graph, start, end) {
   return path;
 }
 
+// Create an instance of the Graph class
 const graph = new Graph();
 const cities = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 
+// Add nodes for cities to the graph
 for (const city of cities) {
   graph.addNode(city);
 }

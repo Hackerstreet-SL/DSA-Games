@@ -17,12 +17,12 @@ let winner_pos = []
 
 // borders of the game
 
-ctx.strokeStyle = "black"; // Set the line color
-ctx.lineWidth = 2; // Set the line width
+ctx.strokeStyle = "black";                          // Set the line color
+ctx.lineWidth = 2;                                  // Set the line width
 ctx.beginPath();
-ctx.moveTo(0, 100); // Starting point (x, y)
-ctx.lineTo(300, 100); // Ending point (x, y)
-ctx.stroke(); // Stroke the line
+ctx.moveTo(0, 100);                                  // Starting point (x, y)
+ctx.lineTo(300, 100);                                // Ending point (x, y)
+ctx.stroke();                                        // Stroke the line
 
 ctx.strokeStyle = "black";
 ctx.lineWidth = 2;
